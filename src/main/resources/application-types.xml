@@ -47,4 +47,13 @@ type multiFlights_json = Array<{|  airline: String,   flightCode: String,   from
       </types:input-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#9a4fe1b1-c025-41e3-99c8-91d5f2fcc487">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="multiFlights_xml"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

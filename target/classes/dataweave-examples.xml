@@ -25,6 +25,7 @@ output application/xml
 
 fun formatFlightId(index: Number): String = 
 	"Flight-" ++ index as String {format: "000" }
+	
 ---
 flights: {(
 	payload map((object, index) -> {
@@ -37,6 +38,34 @@ flights: {(
 		
 	})
 )}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="processMultiFlights_xml" doc:id="b7dd94dc-8f96-428a-adf7-9c2584dc1259" >
+		<ee:transform doc:name="Transform Message" doc:id="9a4fe1b1-c025-41e3-99c8-91d5f2fcc487" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ns ns0 http://soap.training.mulesoft.com/
+---
+/*
+payload.ns0#listAllFlightsResponse.*return map((object, index) -> {})
+*/
+payload..*return map {
+	airlineName: $.@.airlineName ++ " Airlines",
+	flightCode: $.code,
+	departureDate: $.departureDate
+					as Date {format: "yyyy/MM/dd"}
+					as String {format: "MMM dd, yyyy"},
+	destination: $.destination,
+	availableSeats: $.emptySeats as Number,
+	planeType: $.planeType replace 'Boing' with 'Boeing Dream Liner',
+	price:  $.price as Number
+	
+}
+filter $.availableSeats != 0 
+orderBy $.price
+distinctBy $]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
