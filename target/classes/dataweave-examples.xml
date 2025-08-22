@@ -17,5 +17,28 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:variables>
 		</ee:transform>
 	</flow>
+	<flow name="processMultiFlights_json" doc:id="ae77d34e-e375-4026-8ff5-db450e8b8729" >
+		<ee:transform doc:name="Transform Message" doc:id="9f70aaa6-c273-4484-a04b-942b0ec59b27" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+
+fun formatFlightId(index: Number): String = 
+	"Flight-" ++ index as String {format: "000" }
+---
+flights: {(
+	payload map((object, index) -> {
+		carrierName: object.airline,
+		code: object.flightCode,
+		origin: object.fromAirportCode,
+		destination: object.toAirportCode,
+		"flight-id": formatFlightId(index),
+		"flight-$(index)": object
+		
+	})
+)}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 
 </mule>
