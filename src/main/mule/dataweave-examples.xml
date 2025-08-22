@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	<flow name="processSingleFlight_json" doc:id="c4643cf6-8226-42e5-9662-ce081b90704c" >
+		<ee:transform doc:name="Transform Message" doc:id="4b935311-df95-4cb7-b728-589ac9c69f86" >
+			<ee:message >
+				<ee:set-payload resource="dw/payload_java.dwl" />
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dw/flightData_json.dwl" variableName="flightData" />
+				<ee:set-variable resource="dw/flightInfo_xml.dwl" variableName="flightInfo" />
+			</ee:variables>
+		</ee:transform>
+	</flow>
+
+</mule>
